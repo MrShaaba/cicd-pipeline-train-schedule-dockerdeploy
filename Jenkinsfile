@@ -14,7 +14,7 @@ pipeline {
             }
             steps {
                 script {
-                    app = docker.build("shaaba/train-schedule")
+                    app = docker.build(“shaaba/train-schedule")
                     app.inside {
                         sh 'echo $(curl localhost:8080)'
                     }
@@ -34,26 +34,6 @@ pipeline {
                 }
             }
         }
-        stage('DeployToProduction') {
-            when {
-                branch 'master'
-            }
-            steps {
-                input 'Deploy to Production?'
-                milestone(1)
-             withCredentials([sshUserPrivateKey(credentialsId: 'web-server1', keyFileVariable: 'key', passphraseVariable: '', usernameVariable: 'ec2-user')]) {
-                    script {
-                         sh "sshpass -v ssh -o StrictHostKeyChecking=no $ec2-user@$prod_ip\"docker pull shaaba/train-schedule:${env.BUILD_NUMBER}\""
-                        try {
-                             sh "sshpass -v ssh -o StrictHostKeyChecking=no $ec2-user@$prod_ip\"docker stop train-schedule\""
-                             sh "sshpass -v ssh -o StrictHostKeyChecking=no $ec2-user@$prod_ip\"docker rm train-schedule\""
-                        } catch (err) {
-                            echo: 'caught error: $err'
-                        }
-                         sh "sshpass -v ssh -o StrictHostKeyChecking=no $ec2-user@$prod_ip\"docker run --restart always --name train-schedule -p 8080:8080 -d shaaba/train-schedule:${env.BUILD_NUMBER}\""
-                    }
-                }
-            }
-        }
     }
 }
+
