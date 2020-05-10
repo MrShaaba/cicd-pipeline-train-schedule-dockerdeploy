@@ -1,4 +1,4 @@
-FROM node:carbon
+FROM jenkins/jenkins:lts
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
