@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'dockerserver' }
     stages {
         stage('Build') {
             steps {
@@ -12,9 +12,12 @@ pipeline {
             when {
                 branch 'master'
             }
+            agent {
+                docker {
+                  label 'dockerserver' 
             steps {
                 script {
-                    app = docker.build("shaaba/train-schedule1")
+                    app = docker.build("shaaba/train-schedule")
                     app.inside {
                         sh 'echo $(curl localhost:8080)'
                     }
