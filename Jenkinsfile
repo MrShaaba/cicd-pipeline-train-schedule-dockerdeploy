@@ -14,7 +14,7 @@ pipeline {
             }
             agent {
                 docker {
-                    label 'dockerserver' }
+                    label 'dockerserver' } }
             steps {
                 script {
                     app = docker.build("shaaba/train-schedule")
