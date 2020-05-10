@@ -13,11 +13,11 @@ pipeline {
                 branch 'master'
             }
             steps {
-              
+                script {
                     app = docker.build("shaaba/train-schedule")
                     app.inside {
                         sh 'echo $(curl localhost:8080)'
-                   
+                    }
                 }
             }
         }
