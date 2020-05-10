@@ -12,9 +12,7 @@ pipeline {
             when {
                 branch 'master'
             }
-            agent {
-                docker {
-                    label 'dockerserver' } }
+      
             steps {
                 script {
                     app = docker.build("shaaba/train-schedule")
