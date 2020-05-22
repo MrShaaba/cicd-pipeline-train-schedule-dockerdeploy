@@ -41,7 +41,7 @@ pipeline {
             steps {
                 input 'Deploy to Production?'
                 milestone(1)
-                 withCredentials([sshUserPrivateKey(credentialsId: 'webserver_login', keyFileVariable: 'key', passphraseVariable: 'USERNAME', usernameVariable: 'USERPASS')]) {
+                 withCredentials([sshUserPrivateKey(credentialsId: 'webserver_login', keyFileVariable: '', passphraseVariable: 'USERPASS', usernameVariable: 'USERNAME')]) {
                     script {
                         sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull shaaba/train-schedule:${env.BUILD_NUMBER}\""
                         try {
