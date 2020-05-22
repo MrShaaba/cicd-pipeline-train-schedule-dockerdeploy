@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'dockerserver' }
+    agent any
     stages {
         stage('Build') {
             steps {
@@ -12,7 +12,6 @@ pipeline {
             when {
                 branch 'master'
             }
-      
             steps {
                 script {
                     app = docker.build("shaaba/train-schedule")
@@ -35,5 +34,6 @@ pipeline {
                 }
             }
         }
-     }
- }
+       
+    }
+}
